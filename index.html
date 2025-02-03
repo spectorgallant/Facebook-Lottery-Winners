@@ -6,23 +6,127 @@
     <title>Facebook Lotto Winners</title>
     <link rel="stylesheet" href="styles.css">
     <script>
-        // Contact Agent Function to redirect to Facebook Messenger
-        function contactAgent(name, ticket) {
-            // Facebook Messenger Link (replace 'YourAgentUsername' with the actual Facebook username of your agent)
-            const messengerLink = "https://m.me/samanthaconor1981?ref=lotto_contact";
+        function showConfirmationPopup(name, ticket) {
+            // Show confirmation message
+            const popup = document.createElement("div");
+            popup.innerHTML = `
+                <div class="popup-container">
+                    <p><strong>Please note that you’ll need to confirm your identity to ensure that you are the real person claiming the winnings.</strong></p>
+                    <button onclick="proceedToContact('${name}', '${ticket}')">Agree and Proceed</button>
+                    <button onclick="cancelContact()">Cancel</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
 
-            const choice = confirm("Do you want to contact an agent via Facebook Messenger? Click 'Cancel' to send an SMS instead.");
-            
-            if (choice) {
-                // Redirect to Facebook Messenger
-                window.location.href = messengerLink;
-            } else {
-                // SMS option if they select 'Cancel'
-                const message = `Hi, I'm ${name}, and my ticket number is ${ticket}. I won a prize and would like to claim it.`;
-                window.location.href = `sms:+17472321537?body=${encodeURIComponent(message)}`;
-            }
+        function cancelContact() {
+            // Remove the popup if canceled
+            document.querySelector(".popup-container").remove();
+        }
+
+        function proceedToContact(name, ticket) {
+            // Remove confirmation popup
+            document.querySelector(".popup-container").remove();
+
+            // Show app selection popup
+            const popup = document.createElement("div");
+            popup.innerHTML = `
+                <div class="popup-container">
+                    <p><strong>Select how you want to contact your agent:</strong></p>
+                    <button class="app-btn messenger" onclick="contactViaMessenger()">Messenger</button>
+                    <button class="app-btn sms" onclick="contactViaSMS('${name}', '${ticket}')">Text Message (SMS)</button>
+                    <button class="app-btn signal" onclick="contactViaSignal1()">Signal - Agent 1</button>
+                    <button class="app-btn signal" onclick="contactViaSignal2()">Signal - Agent 2</button>
+                    <button onclick="cancelContact()">Cancel</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
+
+        function contactViaMessenger() {
+            window.location.href = "https://m.me/samanthaconor1981?ref=lotto_contact";
+        }
+
+        function contactViaSMS(name, ticket) {
+            const message = `Hi, I'm ${name}, and my ticket number is ${ticket}. I won a prize and would like to claim it.`;
+            window.location.href = `sms:+17472321537?body=${encodeURIComponent(message)}`;
+        }
+
+        function contactViaSignal1() {
+            window.location.href = "https://signal.me/#p/+12135376543";
+        }
+
+        function contactViaSignal2() {
+            window.location.href = "https://signal.me/#p/+17472321537";
         }
     </script>
+    <style>
+        .popup-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 1000;
+            border-radius: 10px;
+        }
+
+        .app-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .app-btn.messenger {
+            background-color: #0084FF; /* Messenger Blue */
+        }
+
+        .app-btn.sms {
+            background-color: #34b7f1; /* SMS Blue */
+        }
+
+        .app-btn.signal {
+            background-color: #3a86ff; /* Signal Blue */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .claim-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .claim-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
@@ -71,6 +175,8 @@
                 <p>Won: $350,000</p>
                 <p style="color: green; font-weight: bold;">CLAIMED AND PAID ✅✅</p>
             </div>
+
+            <!-- More Paid Winners Here -->
         </div>
     </section>
 
@@ -82,99 +188,101 @@
                 <img src="IMG_2116.JPG" alt="Alma Mcmillen">
                 <h3>Alma Mcmillen</h3>
                 <p>Won: $530,000</p>
-                <button class="claim-btn" onclick="contactAgent('Alma Mcmillen', '245678')">Contact Your Agent Now To Claim Winnings</button>
+                <button class="claim-btn" onclick="showConfirmationPopup('Alma Mcmillen', '245678')">Contact Your Agent Now To Claim Winnings</button>
             </div>
             <div class="winner-card">
                 <img src="IMG_2117.JPG" alt="Demear Fisher">
                 <h3>Demear Fisher</h3>
                 <p>Won: $320,000</p>
-                <button class="claim-btn" onclick="contactAgent('Demear Fisher', '678910')">Contact Your Agent Now To Claim Winnings</button>
+                <button class="claim-btn" onclick="showConfirmationPopup('Demear Fisher', '678910')">Contact Your Agent Now To Claim Winnings</button>
             </div>
             <div class="winner-card">
                 <img src="IMG_2118.JPG" alt="Jonathan Ramsey">
                 <h3>Jonathan Ramsey</h3>
                 <p>Won: $410,500</p>
-                <button class="claim-btn" onclick="contactAgent('Jonathan Ramsey', '123456')">Contact Your Agent Now To Claim Winnings</button>
+                <button class="claim-btn" onclick="showConfirmationPopup('Jonathan Ramsey', '678910')">Contact Your Agent Now To Claim Winnings</button>
             </div>
             <div class="winner-card">
                 <img src="IMG_2593.JPG" alt="Likia Norman">
                 <h3>Likia Norman</h3>
                 <p>Won: $550,000</p>
-                <button class="claim-btn" onclick="contactAgent('Likia Norman', '789012')">Contact Your Agent Now To Claim Winnings</button>
+                <button class="claim-btn" onclick="showConfirmationPopup('Likia Norman', '668536')">Contact Your Agent Now To Claim Winnings</button>
             </div>
             <div class="winner-card">
-              <img src="FB_IMG_16553119644566409_Original.jpg" alt="Bob Knight">
-              <h3>Bob Knight</h3>
-              <p>Won: $730,000</p>
-              <button class="claim-btn" onclick="contactAgent('Bob Knight', '789012')">Contact Your Agent Now To Claim Winnings</button>
-          </div>
-          <div class="winner-card">
-            <img src="IMG_2128.JPG" alt="Lul Chase">
-            <h3>Lul Chase</h3>
-            <p>Won: $500,000</p>
-            <button class="claim-btn" onclick="contactAgent('Lul Chase', '789012')">Contact Your Agent Now To Claim Winnings</button>
-        </div>
-        <div class="winner-card">
-          <img src="IMG_2129.JPG" alt="Robert Ross Jr">
-          <h3>Robert Ross Jr</h3>
-          <p>Won: $620,000</p>
-          <button class="claim-btn" onclick="contactAgent('Robert Ross Jr', '789012')">Contact Your Agent Now To Claim Winnings</button>
-      </div>
-      <div class="winner-card">
-        <img src="Screenshot_20220608-120532_Original.jpg" alt="Jimmy Mckeefry">
-        <h3>Jimmy Mckeefry</h3>
-        <p>Won: $450,000</p>
-        <button class="claim-btn" onclick="contactAgent('Jimmy Mckeefry', '789012')">Contact Your Agent Now To Claim Winnings</button>
-    </div>
-    <div class="winner-card">
-      <img src="IMG-20220511-WA0008_Original.jpg" alt="John Delvin">
-      <h3>John Delvin</h3>
-      <p>Won: $300,000</p>
-      <button class="claim-btn" onclick="contactAgent('John Delvin', '789012')">Contact Your Agent Now To Claim Winnings</button>
-  </div>
-  <div class="winner-card">
-    <img src="img.lotto.jpg" alt="Scott Riggs">
-    <h3>Scott Riggs</h3>
-    <p>Won: $610,000</p>
-    <button class="claim-btn" onclick="contactAgent('Scott Riggs', '789012')">Contact Your Agent Now To Claim Winnings</button>
-</div>
-<div class="winner-card">
-  <img src="IMG_2126.jpg" alt="Bret Weldon Hague">
-  <h3>Bret Weldon Hague</h3>
-  <p>Won: $360,200</p>
-  <button class="claim-btn" onclick="contactAgent('Bret Weldon Hague', '789012')">Contact Your Agent Now To Claim Winnings</button>
-</div>
-<div class="winner-card">
-  <img src="Screenshot 2024-12-20 at 5.36.29 pm.JPEG" alt="Olivia Wilson">
-  <h3>Olivia Wilson</h3>
-  <p>Won: $300,000</p>
-  <button class="claim-btn" onclick="contactAgent('Olivia Wilson', '789012')">Contact Your Agent Now To Claim Winnings</button>
-</div>
-<div class="winner-card">
-  <img src="IMG_5049.PNG" alt="Sarah Mcalister">
-  <h3>Sarah Mcalister</h3>
-  <p>Won: $810,000</p>
-  <button class="claim-btn" onclick="contactAgent('Sarah Mcalister', '789012')">Contact Your Agent Now To Claim Winnings</button>
-</div>
-<div class="winner-card">
-  <img src="IMG_0445.JPG" alt="Greenwood James">
-  <h3>Greenwood James</h3>
-  <p>Won: $720,000</p>
-  <button class="claim-btn" onclick="contactAgent('Greenwood James', '789012')">Contact Your Agent Now To Claim Winnings</button>
-</div>
-<div class="winner-card">
-  <img src="IMG_2130.JPG" alt="Rosemary Kelly-Sheehan">
-  <h3>Rosemary Kelly-Sheehan</h3>
-  <p>Won: $600,000</p>
-  <button class="claim-btn" onclick="contactAgent('Rosemary Kelly-Sheehan', '789012')">Contact Your Agent Now To Claim Winnings</button>
-</div>
-<div class="winner-card">
-  <img src="IMG_7781.JPG" alt="Mitchelle Scott">
-  <h3>Mitchelle Scott</h3>
-  <p>Won: $450,500</p>
-  <button class="claim-btn" onclick="contactAgent('Mitchelle Scott', '789012')">Contact Your Agent Now To Claim Winnings</button>
-</div>
-
+                <img src="FB_IMG_16553119644566409_Original.jpg" alt="Bob Knight">
+                <h3>Bob Knight</h3>
+                <p>Won: $730,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Bob Knight', '33289')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG_2128.JPG" alt="Lul Chase">
+                <h3>Lul Chase</h3>
+                <p>Won: $500,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Lul Chase', '743906')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG_2129.JPG" alt="Robert Ross Jr">
+                <h3>Robert Ross Jr</h3>
+                <p>Won: $620,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Robert Ross Jr', '539378')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="Screenshot_20220608-120532_Original.jpg" alt="Jimmy Mckeefry">
+                <h3>Jimmy Mckeefry</h3>
+                <p>Won: $450,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Jimmy Mckeefry', '32789')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG-20220511-WA0008_Original.jpg" alt="John Delvin">
+                <h3>John Delvin</h3>
+                <p>Won: $300,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('John Delvin', '65328')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="img.lotto.jpg" alt="Scott Riggs">
+                <h3>Scott Riggs</h3>
+                <p>Won: $610,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Scott Riggs', '904436')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG_2126.jpg" alt="Bret Weldon Hague">
+                <h3>Bret Weldon Hague</h3>
+                <p>Won: $360,200</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Bret Weldon Hague', '633211')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="Screenshot 2024-12-20 at 5.36.29 pm.JPEG" alt="Olivia Wilson">
+                <h3>Olivia Wilson</h3>
+                <p>Won: $300,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Olivia Wilson', '432980')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG_5049.PNG" alt="Sarah Mcalister">
+                <h3>Sarah Mcalister</h3>
+                <p>Won: $810,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Sarah Mcalister', '043276')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG_0445.JPG" alt="Greenwood James">
+                <h3>Greenwood James</h3>
+                <p>Won: $720,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Greenwood James', '622510')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG_2130.JPG" alt="Rosemary Kelly-Sheehan">
+                <h3>Rosemary Kelly-Sheehan</h3>
+                <p>Won: $600,000</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Rosemary Kelly-Sheehan', '470010')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            <div class="winner-card">
+                <img src="IMG_7781.JPG" alt="Mitchelle Scott">
+                <h3>Mitchelle Scott</h3>
+                <p>Won: $450,500</p>
+                <button class="claim-btn" onclick="showConfirmationPopup('Mitchelle Scott', '600312')">Contact Your Agent Now To Claim Winnings</button>
+            </div>
+            
+            
+            <!-- More Selected Winners Here -->
         </div>
     </section>
 
