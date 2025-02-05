@@ -12,7 +12,7 @@
             popup.innerHTML = `
                 <div class="popup-container">
                     <p><strong>Please note that you’ll need to confirm your identity to ensure that you are the real person claiming the winnings.</strong></p>
-                    <button onclick="proceedToContact('${name}', '${ticket}')">Agree and Proceed</button>
+                    <button onclick="proceedToContact()">Agree and Proceed</button>
                     <button onclick="cancelContact()">Cancel</button>
                 </div>
             `;
@@ -24,19 +24,16 @@
             document.querySelector(".popup-container").remove();
         }
 
-        function proceedToContact(name, ticket) {
+        function proceedToContact() {
             // Remove confirmation popup
             document.querySelector(".popup-container").remove();
 
-            // Show app selection popup
+            // Show Messenger contact option only
             const popup = document.createElement("div");
             popup.innerHTML = `
                 <div class="popup-container">
-                    <p><strong>Select how you want to contact your agent:</strong></p>
+                    <p><strong>Contact your agent via Messenger:</strong></p>
                     <button class="app-btn messenger" onclick="contactViaMessenger()">Messenger</button>
-                    <button class="app-btn sms" onclick="contactViaSMS('${name}', '${ticket}')">Text Message (SMS)</button>
-                    <button class="app-btn signal" onclick="contactViaSignal1()">Signal - Agent 1</button>
-                    <button class="app-btn signal" onclick="contactViaSignal2()">Signal - Agent 2</button>
                     <button onclick="cancelContact()">Cancel</button>
                 </div>
             `;
@@ -45,19 +42,6 @@
 
         function contactViaMessenger() {
             window.location.href = "https://m.me/samanthaconor1981?ref=lotto_contact";
-        }
-
-        function contactViaSMS(name, ticket) {
-            const message = `Hi, I'm ${name}, and my ticket number is ${ticket}. I won a prize and would like to claim it.`;
-            window.location.href = `sms:+17472321537?body=${encodeURIComponent(message)}`;
-        }
-
-        function contactViaSignal1() {
-            window.location.href = "https://signal.me/#p/+12135376543";
-        }
-
-        function contactViaSignal2() {
-            window.location.href = "https://signal.me/#p/+17472321537";
         }
     </script>
     <style>
@@ -89,14 +73,6 @@
 
         .app-btn.messenger {
             background-color: #0084FF; /* Messenger Blue */
-        }
-
-        .app-btn.sms {
-            background-color: #34b7f1; /* SMS Blue */
-        }
-
-        .app-btn.signal {
-            background-color: #3a86ff; /* Signal Blue */
         }
 
         button {
@@ -181,8 +157,6 @@
                 <p>Won: $240,000</p>
                 <p style="color: green; font-weight: bold;">CLAIMED AND PAID ✅✅</p>
             </div>
-
-            <!-- More Paid Winners Here -->
         </div>
     </section>
 
